@@ -1,0 +1,45 @@
+<div class="border-bottom mt-4 mb-3">
+  <h6 class="data-grid-header">{{ layoutItem.label }}</h6>
+</div>
+
+<ng-container *ngIf="backendResponse">
+  <dx-data-grid
+    [dataSource]="backendResponse.dataSets[0].data"
+    id="dataGrid"
+    [showColumnLines]="false"
+    [rowAlternationEnabled]="true"
+  >
+    <dxi-column
+      *ngFor="let col of layoutItem.elements[0].fields"
+      [dataField]="col.name"
+      [caption]="col.name | labelDef: layoutResponse.fieldDefinitions"
+      cellTemplate="cellTemplate"
+    >
+    </dxi-column>
+    <div *dxTemplate="let cell of 'cellTemplate'">
+      <div>
+        {{
+          cell.text
+            | responseDef: layoutResponse.fieldDefinitions:cell.column.name
+        }}
+      </div>
+    </div>
+
+    <dxo-summary>
+      <ng-container *ngFor="let col of layoutItem.elements[0].fields">
+        <dxi-total-item
+          *ngIf="layoutResponse.fieldDefinitions[col.name].aggFn !== 'none'"
+          [name]="col.name"
+          [showInColumn]="col.name"
+          [column]="col.name"
+          [summaryType]="
+            layoutResponse.fieldDefinitions[col.name].aggFn | devExtremeAgg
+          "
+          displayFormat="{0}"
+          [customizeText]="customizeSummary"
+        >
+        </dxi-total-item>
+      </ng-container>
+    </dxo-summary>
+  </dx-data-grid>
+</ng-container>

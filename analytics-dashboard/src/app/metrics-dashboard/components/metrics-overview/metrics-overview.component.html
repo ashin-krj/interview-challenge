@@ -1,0 +1,19 @@
+<div class="border-bottom mt-4">
+  <h6 class="metric-overview-header">{{ layoutItem.label }}</h6>
+</div>
+<div class="row">
+  <div
+    class="col-{{ element.width }} py-3"
+    *ngFor="let element of layoutItem.elements"
+  >
+    <div class="metric-label">
+      {{ element.name | labelDef: layoutResponse.fieldDefinitions }}
+    </div>
+    <div class="metric-value" *ngIf="backendResponse">
+      {{
+        backendResponse.dataPoints[element.name]
+          | responseDef: layoutResponse.fieldDefinitions:element.name
+      }}
+    </div>
+  </div>
+</div>

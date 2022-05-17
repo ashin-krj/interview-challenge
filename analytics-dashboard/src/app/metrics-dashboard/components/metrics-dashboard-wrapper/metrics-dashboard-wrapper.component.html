@@ -1,0 +1,21 @@
+<div class="row" *ngIf="layoutResponse">
+  <div
+    class="col-{{ layoutItem.width }}"
+    *ngFor="let layoutItem of layoutResponse.layout"
+  >
+    <ng-container *ngIf="layoutItem.type === layoutTypes.DATA_POINT">
+      <mad-metrics-overview
+        [layoutResponse]="layoutResponse"
+        [backendResponse]="backendResponse"
+        [layoutItem]="layoutItem"
+      ></mad-metrics-overview>
+    </ng-container>
+    <ng-container *ngIf="layoutItem.type === layoutTypes.DATA_SET">
+      <mad-data-grid
+        [backendResponse]="backendResponse"
+        [layoutResponse]="layoutResponse"
+        [layoutItem]="layoutItem"
+      ></mad-data-grid>
+    </ng-container>
+  </div>
+</div>
